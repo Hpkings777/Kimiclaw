@@ -24,7 +24,7 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
     lateinit var rootView: TermuxActivityRootView
     lateinit var drawerLayout: DrawerLayout
     var termuxService: TermuxService? = null
-    var isVisible: Boolean = false
+    var activityVisible: Boolean = false
 
     private var serviceBound = false
 
@@ -37,7 +37,7 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT
             )
-            setActivity(this@TermuxActivity)
+            assignActivity(this@TermuxActivity)
         }
 
         drawerLayout = DrawerLayout(this).apply {
@@ -68,7 +68,7 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
 
     override fun onStart() {
         super.onStart()
-        isVisible = true
+        activityVisible = true
         if (!serviceBound) {
             bindService()
         }
@@ -76,7 +76,7 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
 
     override fun onStop() {
         super.onStop()
-        isVisible = false
+        activityVisible = false
     }
 
     override fun onDestroy() {
@@ -143,6 +143,4 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
     }
 
     fun getCurrentSession(): TerminalSession? = termuxService?.currentSession
-
-    fun getTermuxService(): TermuxService? = termuxService
 }

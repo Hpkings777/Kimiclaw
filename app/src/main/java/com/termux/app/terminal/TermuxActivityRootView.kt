@@ -31,7 +31,7 @@ class TermuxActivityRootView(
         }
     }
 
-    fun setActivity(termuxActivity: TermuxActivity) {
+    fun assignActivity(termuxActivity: TermuxActivity) {
         this.activity = termuxActivity
     }
 

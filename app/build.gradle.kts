@@ -50,6 +50,11 @@ android {
             res.srcDirs("src/main/res")
             assets.srcDirs("src/main/assets")
             jniLibs.srcDirs("src/main/jniLibs")
+            java.excludes = listOf(
+                "com/google/android/**",
+                "com/google/common/**",
+                "com/google/zxing/**"
+            )
         }
     }
 

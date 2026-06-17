@@ -122,7 +122,7 @@ class BootstrapInstallThread(
                             entry.name.startsWith("lib/apt/apt-helper") ||
                             entry.name.startsWith("lib/apt/methods")
                         ) {
-                            Os.chmod(file.absolutePath, 0o700)
+                            file.setExecutable(true, false)
                         }
                     }
                 }

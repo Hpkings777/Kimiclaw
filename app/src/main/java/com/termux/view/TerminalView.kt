@@ -62,8 +62,7 @@ class TerminalView(
 
     private val gestureDetector: GestureDetector
     private val scaleDetector: ScaleGestureDetector
-    @Suppress("NewApi")
-    private var doubleTapSlop = ViewConfiguration.getDoubleTapSlop()
+    private var doubleTapSlop = 20
     private var longPressTimeout = ViewConfiguration.getLongPressTimeout()
 
     private var selectionInProgress = false
@@ -108,12 +107,11 @@ class TerminalView(
                 }
             }
 
-            override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+            override fun onScroll(e1: MotionEvent?, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
                 val emulator = emulator
                 if (selectionInProgress) {
                     updateSelection(e2)
                 } else if (emulator != null) {
-                    val maxScroll = emulator.session.outputQueue.let { 0 }
                     topRow = (topRow + distanceY / charHeight).toInt().coerceIn(
                         -(emulator.session.outputQueue.completedCount), 0
                     )
@@ -122,7 +120,7 @@ class TerminalView(
                 return true
             }
 
-            override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+            override fun onFling(e1: MotionEvent?, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
                 scroller.fling(
                     0, topRow, 0, velocityY.toInt(),
                     0, 0, Integer.MIN_VALUE, 0
@@ -130,7 +128,7 @@ class TerminalView(
                 invalidate()
                 return true
             }
-        }, null, true)
+        })
 
         scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
             override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -326,7 +324,7 @@ class TerminalView(
     }
 
     fun stopCursorBlinker() {
-        cursorBlinkHandler?.removeCallbacks(cursorBlinkRunnable)
+        cursorBlinkRunnable?.let { cursorBlinkHandler?.removeCallbacks(it) }
         cursorBlinkRunnable = null
     }
 }

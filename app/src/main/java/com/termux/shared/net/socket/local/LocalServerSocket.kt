@@ -7,11 +7,11 @@ import java.io.File
 import java.nio.charset.StandardCharsets
 
 class LocalServerSocket(
-    private val manager: LocalSocketManager,
+    val manager: LocalSocketManager,
     private val config: SocketServerConfig
 ) : Closeable {
 
-    private val listenerThread = Thread(ClientSocketListener(this))
+    val listenerThread = Thread(ClientSocketListener(this))
     private var running = false
 
     fun start(): String? {

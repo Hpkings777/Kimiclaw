@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewConfiguration
 import android.widget.GridLayout
 import android.widget.PopupWindow
-import com.google.android.material.button.MaterialButton
+import android.widget.Button
 import com.moonshot.kimiclaw.R
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
@@ -27,7 +27,7 @@ data class ExtraButtonState(
     val id: String,
     var isActive: Boolean = false,
     var triggeredByRepeat: Boolean = false,
-    val buttons: MutableList<MaterialButton> = mutableListOf()
+    val buttons: MutableList<Button> = mutableListOf()
 )
 
 interface ExtraKeysViewClient {
@@ -72,10 +72,10 @@ class ExtraKeysView(
         longPressRepeatDelay = 80
     }
 
-    private fun createButtonForSpecial(id: String, trackInList: Boolean): MaterialButton? {
+    private fun createButtonForSpecial(id: String, trackInList: Boolean): Button? {
         val state = specialButtons[id] ?: return null
         state.isActive = true
-        val btn = MaterialButton(context, null, android.R.attr.buttonBarButtonStyle)
+        val btn = Button(context, null, android.R.attr.buttonBarButtonStyle)
         btn.setTextColor(if (state.isActive) buttonActiveTextColor else buttonTextColor)
         if (trackInList) state.buttons.add(btn)
         return btn
@@ -95,7 +95,7 @@ class ExtraKeysView(
 
     private fun handleKeyPress(key: String, longPress: Boolean) {
         client?.let { client ->
-            if (buttonExtraKeysPattern.matcher(key).matches()) {
+            if (buttonExtraKeysPattern.matches(key)) {
                 var ctrl = false
                 var alt = false
                 var shift = false
@@ -133,7 +133,7 @@ class ExtraKeysView(
                 val btn = if (isSpecial) {
                     createButtonForSpecial(button.id, true) ?: return
                 } else {
-                    MaterialButton(context, null, android.R.attr.buttonBarButtonStyle)
+                    Button(context, null, android.R.attr.buttonBarButtonStyle)
                 }
 
                 btn.text = button.label.toString()
@@ -206,7 +206,7 @@ class ExtraKeysView(
                         val popupBtn = if (specialButtonKeys.contains(popup.id)) {
                             createButtonForSpecial(popup.id, false)
                         } else {
-                            MaterialButton(context, null, android.R.attr.buttonBarButtonStyle).apply {
+                            Button(context, null, android.R.attr.buttonBarButtonStyle).apply {
                                 setTextColor(buttonTextColor)
                             }
                         }
@@ -219,8 +219,7 @@ class ExtraKeysView(
                             popupBtn.minWidth = 0
                             popupBtn.minimumWidth = 0
                             popupBtn.minimumHeight = 0
-                            popupBtn.width = v.measuredWidth
-                            popupBtn.height = v.measuredHeight
+                    popupBtn.layoutParams = android.view.ViewGroup.LayoutParams(v.measuredWidth, v.measuredHeight)
                             popupBtn.setBackgroundColor(buttonActiveBackgroundColor)
 
                             PopupWindow(this).apply {

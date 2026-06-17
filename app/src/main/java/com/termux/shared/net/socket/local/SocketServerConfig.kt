@@ -6,8 +6,8 @@ import java.nio.charset.StandardCharsets
 abstract class SocketServerConfig(
     val title: String = "TermuxAm"
 ) : Serializable {
-    protected val isAbstractNamespaceSocket: Boolean
-    protected val path: String
+    val isAbstractNamespaceSocket: Boolean
+    val path: String
     var fd: Int = -1
     var backlog: Int? = null
     var deadline: Long? = null

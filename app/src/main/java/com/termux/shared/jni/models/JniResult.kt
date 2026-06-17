@@ -25,7 +25,7 @@ class JniResult(
         val e = errmsg
         if (!e.isNullOrEmpty()) {
             sb.append("\n")
-            sb.append(formatField("Errmsg", errmsg))
+            sb.append(formatField("Errmsg", e))
         }
         return sb.toString()
     }

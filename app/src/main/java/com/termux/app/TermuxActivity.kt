@@ -1,6 +1,7 @@
 package com.termux.app
 
 import android.app.Activity
+import androidx.core.view.GravityCompat
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
@@ -130,14 +131,14 @@ class TermuxActivity : Activity(), ServiceConnection, TerminalViewClient {
     }
 
     override fun onDoubleTap(event: android.view.MotionEvent) {
-        drawerLayout.openDrawer(androidx.drawerlayout.widget.GravityCompat.START)
+        drawerLayout.openDrawer(GravityCompat.START)
     }
 
     fun toggleDrawer() {
-        if (drawerLayout.isDrawerOpen(androidx.drawerlayout.widget.GravityCompat.START)) {
-            drawerLayout.closeDrawer(androidx.drawerlayout.widget.GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
-            drawerLayout.openDrawer(androidx.drawerlayout.widget.GravityCompat.START)
+            drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 

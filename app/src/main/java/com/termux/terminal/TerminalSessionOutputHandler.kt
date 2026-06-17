@@ -15,14 +15,14 @@ class TerminalSessionOutputHandler(
     private val buffer = ByteArray(4096)
 
     override fun handleMessage(msg: Message) {
-        val bytesRead = session.terminalOutput.read(buffer, false)
+        val bytesRead = session.outputQueue.read(buffer, false)
         if (bytesRead > 0) {
             session.emulator?.let { emulator ->
                 for (i in 0 until bytesRead) {
                     emulator.write(buffer[i])
                 }
             }
-            session.listener?.onSessionUpdated(session)
+            session.client?.onSessionUpdated(session)
         }
 
         if (msg.what == MSG_PROCESS_EXITED) {
@@ -41,8 +41,8 @@ class TerminalSessionOutputHandler(
                     emulator.write(b)
                 }
             }
-            session.listener?.onSessionUpdated(session)
-            session.listener?.onSessionFinished(session)
+            session.client?.onSessionUpdated(session)
+            session.client?.onSessionFinished(session)
         }
     }
 

@@ -14,14 +14,6 @@ class LocalSocketManager(
 
     private val serverSocket = LocalServerSocket(this, config)
 
-    companion object {
-        @Volatile
-        private var nativeLoaded = false
-
-        lateinit var appContext: Context
-            private set
-    }
-
     fun start(): String? {
         Log.d("LocalSocketManager", "start\n${config.toLogString()}")
         if (!nativeLoaded) {
@@ -121,6 +113,12 @@ class LocalSocketManager(
     }
 
     companion object {
+        @Volatile
+        private var nativeLoaded = false
+
+        lateinit var appContext: Context
+            private set
+
         private var appContextRef: Context? = null
 
         fun init(context: Context) {

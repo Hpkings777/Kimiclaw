@@ -22,7 +22,8 @@ class JniResult(
             sb.append("\n")
             sb.append(formatField("Errno", errno))
         }
-        if (!errmsg.isNullOrEmpty()) {
+        val e = errmsg
+        if (!e.isNullOrEmpty()) {
             sb.append("\n")
             sb.append(formatField("Errmsg", errmsg))
         }

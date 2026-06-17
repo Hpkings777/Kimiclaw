@@ -62,6 +62,7 @@ class TerminalView(
 
     private val gestureDetector: GestureDetector
     private val scaleDetector: ScaleGestureDetector
+    @Suppress("NewApi")
     private var doubleTapSlop = ViewConfiguration.getDoubleTapSlop()
     private var longPressTimeout = ViewConfiguration.getLongPressTimeout()
 
@@ -150,7 +151,7 @@ class TerminalView(
         session?.let { session ->
             val cols = maxOf(4, (w / charWidth).toInt())
             val rows = maxOf(4, ((h - charHeight) / charHeight).toInt())
-            emulator?.resize(cols, rows, w, h)
+            emulator?.resize(cols, rows)
         }
     }
 

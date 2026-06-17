@@ -22,7 +22,7 @@ class TerminalBuffer {
             remaining -= chunk
             srcOff += chunk
         }
-        notify()
+        (this as java.lang.Object).notify()
     }
 
     @Synchronized
@@ -30,7 +30,7 @@ class TerminalBuffer {
         if (count == 0) {
             if (finished || !blocking) return 0
             try {
-                wait()
+                (this as java.lang.Object).wait()
             } catch (_: InterruptedException) {
                 return 0
             }
@@ -47,6 +47,6 @@ class TerminalBuffer {
     @Synchronized
     fun setFinished() {
         finished = true
-        notify()
+        (this as java.lang.Object).notify()
     }
 }

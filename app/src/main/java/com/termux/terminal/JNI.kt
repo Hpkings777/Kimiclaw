@@ -5,21 +5,27 @@ abstract class JNI {
         init {
             System.loadLibrary("termux")
         }
+
+        @JvmStatic
+        external fun close(fd: Int)
+
+        @JvmStatic
+        external fun createSubprocess(
+            cmd: String,
+            cwd: String,
+            argv: Array<String>?,
+            envp: Array<String>?,
+            processIdArray: IntArray,
+            columns: Int,
+            rows: Int,
+            width: Int,
+            height: Int
+        ): Int
+
+        @JvmStatic
+        external fun setPtyWindowSize(fd: Int, rows: Int, cols: Int, width: Int, height: Int)
+
+        @JvmStatic
+        external fun waitFor(pid: Int): Int
     }
-
-    external fun close(fd: Int)
-    external fun createSubprocess(
-        cmd: String,
-        cwd: String,
-        argv: Array<String>?,
-        envp: Array<String>?,
-        processIdArray: IntArray,
-        columns: Int,
-        rows: Int,
-        masterFd: Int,
-        slaveFd: Int
-    ): Int
-
-    external fun setPtyWindowSize(fd: Int, rows: Int, cols: Int, width: Int, height: Int)
-    external fun waitFor(pid: Int): Int
 }

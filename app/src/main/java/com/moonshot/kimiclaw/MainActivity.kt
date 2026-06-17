@@ -35,7 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModel
+import android.os.Environment
+import android.provider.Settings
 import com.moonshot.kimiclaw.model.ClawAuthData
 
 class MainViewModel : ViewModel() {

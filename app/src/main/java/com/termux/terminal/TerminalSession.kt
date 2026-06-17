@@ -13,7 +13,7 @@ class TerminalSession(
     val argv: Array<String>?,
     val envp: Array<String>?,
     val desiredRows: Int?,
-    private val client: TerminalSessionClient?
+    val client: TerminalSessionClient?
 ) {
     val sessionId = UUID.randomUUID().toString()
     val inputQueue = TerminalBuffer()

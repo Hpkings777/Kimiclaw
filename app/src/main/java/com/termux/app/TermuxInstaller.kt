@@ -16,8 +16,8 @@ abstract class TermuxInstaller {
 
     companion object {
         private const val TAG = "TermuxInstaller"
-        private const val PREFIX_PATH = "/data/data/com.moonshot.kimiclaw/files/usr"
-        private const val STAGING_PATH = "/data/data/com.moonshot.kimiclaw/files/usr-staging"
+        const val PREFIX_PATH = "/data/data/com.moonshot.kimiclaw/files/usr"
+        const val STAGING_PATH = "/data/data/com.moonshot.kimiclaw/files/usr-staging"
 
         fun logError(msg: String) {
             Log.e(TAG, "KimiClaw Bootstrap Error: $msg")

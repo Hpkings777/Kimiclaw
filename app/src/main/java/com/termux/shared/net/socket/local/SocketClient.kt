@@ -3,6 +3,7 @@ package com.termux.shared.net.socket.local
 import android.util.Log
 import com.termux.shared.jni.models.JniResult
 import java.io.Closeable
+import java.io.IOException
 import java.io.OutputStreamWriter
 
 class SocketClient(
@@ -69,6 +70,11 @@ class SocketClient(
 
     fun closeSilently() {
         try { close() } catch (_: Exception) {}
+    }
+
+    fun available(): Int {
+        val result = LocalSocketManager.available(config.getSocketName() + " (client)", fd)
+        return result?.intData ?: 0
     }
 
     fun toLogString(): String = buildString {

@@ -6,11 +6,6 @@ import android.service.notification.StatusBarNotification
 
 class KimiClawNotificationService : NotificationListenerService() {
 
-    companion object {
-        @Volatile
-        var currentInstance: KimiClawNotificationService? = null
-    }
-
     @Volatile
     var isConnected: Boolean = false
 
@@ -43,6 +38,9 @@ class KimiClawNotificationService : NotificationListenerService() {
     }
 
     companion object {
+        @Volatile
+        var currentInstance: KimiClawNotificationService? = null
+
         @JvmStatic
         fun notificationText(sbn: StatusBarNotification): String {
             val extras = sbn.notification.extras

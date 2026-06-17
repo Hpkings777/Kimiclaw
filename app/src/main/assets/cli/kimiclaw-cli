@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""
+kimiclaw-cli - CLI tool for communicating with KimiClawLocalSocketServer
+
+Usage:
+    kimiclaw-cli '{"ui": "ping"}'
+    kimiclaw-cli '{"ui": "info"}'
+    kimiclaw-cli '{"ui": "open_app", "package_name": "com.moonshot.kimichat", "activity": ".MainActivity"}'
+    kimiclaw-cli '{"ui": "tree", "max_nodes": 400}'
+    kimiclaw-cli '{"ui": "find", "target": {"text_contains": "OK"}, "timeout_ms": 3000}'
+    kimiclaw-cli '{"ui": "click", "target": {"text_contains": "OK"}, "timeout_ms": 3000}'
+    kimiclaw-cli '{"ui": "tap", "x": 720, "y": 2300}'
+    kimiclaw-cli '{"ui": "input", "text": "Hello World"}'
+    kimiclaw-cli '{"ui": "screenshot"}'
+    kimiclaw-cli '{"ui": "notification"}'
+    kimiclaw-cli '{"sdcard_exec": "ls -ltr /sdcard/Download/"}'
+    kimiclaw-cli '{"sdcard_exec": "mv /sdcard/Download/a.txt /sdcard/Download/b.txt"}'
+
+Exit Codes:
+    0 - Success
+    1 - Connection error or socket not found
+    2 - Invalid JSON argument
+    3 - Server returned error
+"""
+
+import socket
+import json
+import sys
+import os
+
+# Android Abstract Namespace socket name (prefix with \0)
+SOCKET_NAME = '\0kimiclaw_ipc_socket'
+DEFAULT_TIMEOUT = 30  # seconds
+
+
+def send_command(command_dict, timeout=DEFAULT_TIMEOUT):
+    """
+    Send a JSON command to KimiClawLocalSocketServer and return the response.
+    
+    Args:
+        command_dict: Dictionary containing the command
+        timeout: Socket timeout in seconds
+        
+    Returns:
+        dict: The JSON response from server
+    """
+    sock = None
+    try:
+        # Create Unix Domain Socket
+        sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        sock.settimeout(timeout)
+        sock.connect(SOCKET_NAME)
+        
+        # Send JSON command with newline
+        message = json.dumps(command_dict, ensure_ascii=False) + "\n"
+        sock.sendall(message.encode('utf-8'))
+        
+        # Receive response (line by line)
+        chunks = []
+        while True:
+            chunk = sock.recv(4096)
+            if not chunk:
+                break
+            chunks.append(chunk)
+            if b'\n' in chunk:
+                break
+        
+        response = b''.join(chunks).decode('utf-8').strip()
+        return json.loads(response) if response else {"status": "error", "message": "Empty response"}
+        
+    except socket.timeout:
+        return {"status": "error", "message": "Connection timeout"}
+    except socket.error as e:
+        return {"status": "error", "message": f"Socket error: {e}"}
+    except json.JSONDecodeError as e:
+        return {"status": "error", "message": f"Invalid JSON response: {e}"}
+    except Exception as e:
+        return {"status": "error", "message": f"Unexpected error: {e}"}
+    finally:
+        if sock:
+            sock.close()
+
+
+def check_server_available():
+    """Check if KimiClawLocalSocketServer is available."""
+    result = send_command({"ui": "ping"}, timeout=5)
+    return result.get("status") == "ok" or result.get("status") == "success"
+
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: kimiclaw-cli '<json_command>'", file=sys.stderr)
+        print("\nExamples:", file=sys.stderr)
+        print('  kimiclaw-cli \'{"ui": "ping"}\'', file=sys.stderr)
+        print('  kimiclaw-cli \'{"ui": "tree", "max_nodes": 400}\'', file=sys.stderr)
+        print('  kimiclaw-cli \'{"ui": "click", "target": {"text_contains": "OK"}}\'', file=sys.stderr)
+        sys.exit(2)
+    
+    # Parse JSON argument
+    json_arg = sys.argv[1]
+    try:
+        command = json.loads(json_arg)
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON argument - {e}", file=sys.stderr)
+        sys.exit(2)
+    
+    # Check for help flag
+    if command.get("ui") == "help" or (len(sys.argv) == 2 and sys.argv[1] in ("-h", "--help", "help")):
+        print(__doc__)
+        
+        # Print available UI commands
+        print("\nAvailable UI Commands:")
+        print("  ping          - Check server availability")
+        print("  info          - Get device and app information")
+        print("  open_app      - Open an app (package_name, activity/component optional)")
+        print("  tree          - Get accessibility tree (max_nodes optional)")
+        print("  find          - Find node by selector (target, timeout_ms)")
+        print("  click         - Click on node (target, timeout_ms)")
+        print("  tap           - Tap at coordinates (x, y)")
+        print("  input         - Input text (text, index optional)")
+        print("  screenshot    - Take a screenshot")
+        print("  notification  - Get notifications (mode: 'active'/'all', excluded optional)")
+        print("\nFile Commands:")
+        print("  sdcard_exec      - Execute shell command on /sdcard/ (e.g. ls, mv, cp, find)")
+        print("                  Example: {\"sdcard_exec\": \"ls -ltr /sdcard/Download/\"}")
+        sys.exit(0)
+    
+    # Check server availability for non-ping commands
+    # if command.get("ui") != "ping":
+    #     if not check_server_available():
+    #         print(json.dumps({
+    #             "status": "error",
+    #             "message": "KimiClawLocalSocketServer not available. Is KimiClaw app running with Accessibility enabled?"
+    #         }))
+    #         sys.exit(1)
+    
+    # Send command and print response
+    response = send_command(command)
+    print(json.dumps(response, indent=2, ensure_ascii=False))
+    
+    # Exit with appropriate code
+    if response.get("status") == "error":
+        sys.exit(3)
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    main()

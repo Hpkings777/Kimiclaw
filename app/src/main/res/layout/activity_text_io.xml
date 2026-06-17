@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <include android:id="@id/partial_primary_toolbar" layout="@layout/partial_primary_toolbar" />
+    <TextView android:textSize="14.0sp" android:textStyle="bold" android:textColor="@android:color/black" android:gravity="start|center" android:id="@id/text_io_label" android:padding="@dimen/content_padding" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content" />
+    <View android:id="@id/text_io_label_separator" android:background="@android:color/darker_gray" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="1.0dip" android:layout_marginHorizontal="@dimen/content_padding" />
+    <androidx.constraintlayout.widget.ConstraintLayout android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:app="http://schemas.android.com/apk/res-auto">
+        <androidx.core.widget.NestedScrollView android:id="@id/text_io_nested_scroll_view" android:padding="@dimen/content_padding_half" android:layout_width="0.0dip" android:layout_height="0.0dip" android:fillViewport="true" app:layout_constraintBottom_toTopOf="@id/text_io_text_character_usage" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+                <HorizontalScrollView android:id="@id/text_io_horizontal_scroll_view" android:layout_width="fill_parent" android:layout_height="fill_parent" android:fillViewport="true">
+                    <LinearLayout android:orientation="vertical" android:id="@id/text_io_text_linear_layout" android:layout_width="wrap_content" android:layout_height="fill_parent">
+                        <EditText android:gravity="start|center|top" android:id="@id/text_io_text" android:layout_width="fill_parent" android:layout_height="fill_parent" android:inputType="textMultiLine" android:importantForAutofill="no" />
+                    </LinearLayout>
+                </HorizontalScrollView>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+        <TextView android:textSize="12.0sp" android:textColor="@android:color/black" android:gravity="end|center" android:id="@id/text_io_text_character_usage" android:visibility="invisible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:paddingEnd="@dimen/content_padding_half" app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

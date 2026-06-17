@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:orientation="vertical" android:id="@id/toolbar_container" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <androidx.appcompat.widget.Toolbar android:theme="@style/ThemeOverlay.AppCompat.DayNight.ActionBar" android:gravity="center_vertical" android:id="@id/toolbar" android:background="?colorPrimaryDark" android:layout_width="fill_parent" android:layout_height="?actionBarSize" android:minHeight="?actionBarSize" app:popupTheme="@style/ThemeOverlay.AppCompat.DayNight" app:subtitleTextAppearance="@style/TextAppearance.Widget.BaseToolbar.Subtitle" app:titleTextAppearance="@style/TextAppearance.Widget.BaseToolbar.Title" />
+</LinearLayout>

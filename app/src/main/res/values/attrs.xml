@@ -6,4 +6,5 @@
     <attr name="extraKeysButtonTextColor" format="reference" />
     <attr name="termuxActivityDrawerBackground" format="reference" />
     <attr name="termuxActivityDrawerImageTint" format="reference" />
+    <attr name="widthChange" format="dimension|fraction" />
 </resources>

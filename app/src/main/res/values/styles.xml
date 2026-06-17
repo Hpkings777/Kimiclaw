@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="TextAppearance.Widget.BaseToolbar.Subtitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">12.0sp</item>
+    </style>
+    <style name="TextAppearance.Widget.BaseToolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">14.0sp</item>
+    </style>
+
     <style name="TermuxActivity.Drawer.ButtonBarStyle.Dark" parent="Widget.MaterialComponents.Button.TextButton" />
     <style name="TermuxActivity.Drawer.ButtonBarStyle.Light" parent="Widget.MaterialComponents.Button.TextButton" />
 

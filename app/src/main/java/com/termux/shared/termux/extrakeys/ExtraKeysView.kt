@@ -62,10 +62,10 @@ class ExtraKeysView(
         updateSpecialButtons()
 
         val ta = context.obtainStyledAttributes(attrs, R.styleable.ExtraKeysView)
-        buttonTextColor = ta.getColor(R.styleable.ExtraKeysView_buttonTextColor, -1)
-        buttonActiveTextColor = ta.getColor(R.styleable.ExtraKeysView_buttonActiveTextColor, -8331542)
-        buttonBackgroundColor = ta.getColor(R.styleable.ExtraKeysView_buttonBackgroundColor, 0)
-        buttonActiveBackgroundColor = ta.getColor(R.styleable.ExtraKeysView_buttonActiveBackgroundColor, -8421505)
+        buttonTextColor = ta.getColor(R.styleable.ExtraKeysView_extraKeysButtonTextColor, -1)
+        buttonActiveTextColor = ta.getColor(R.styleable.ExtraKeysView_extraKeysButtonActiveTextColor, -8331542)
+        buttonBackgroundColor = ta.getColor(R.styleable.ExtraKeysView_extraKeysButtonBackgroundColor, 0)
+        buttonActiveBackgroundColor = ta.getColor(R.styleable.ExtraKeysView_extraKeysButtonActiveBackgroundColor, -8421505)
         ta.recycle()
 
         longPressTimeout = ViewConfiguration.getLongPressTimeout()

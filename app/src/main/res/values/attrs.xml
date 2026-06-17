@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="ExtraKeysView">
-        <attr name="buttonTextColor" format="reference|color" />
-        <attr name="buttonActiveTextColor" format="reference|color" />
-        <attr name="buttonBackgroundColor" format="reference|color" />
-        <attr name="buttonActiveBackgroundColor" format="reference|color" />
+        <attr name="extraKeysButtonTextColor" format="reference|color" />
+        <attr name="extraKeysButtonActiveTextColor" format="reference|color" />
+        <attr name="extraKeysButtonBackgroundColor" format="reference|color" />
+        <attr name="extraKeysButtonActiveBackgroundColor" format="reference|color" />
     </declare-styleable>
     <declare-styleable name="TermuxActivity">
         <attr name="termuxActivityDrawerBackground" format="reference" />

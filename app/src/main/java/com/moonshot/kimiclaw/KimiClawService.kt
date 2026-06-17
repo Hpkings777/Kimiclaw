@@ -156,8 +156,10 @@ class KimiClawService : Service() {
         if (wifiLock == null) {
             val wm = getSystemService(WIFI_SERVICE) as WifiManager
             val tag = "kimiclaw".lowercase(Locale.getDefault())
-            wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, tag)?.acquire()
-                ?.let { wifiLock = it }
+            wm.createWifiLock(WifiManager.WIFI_MODE_FULL_HIGH_PERF, tag)?.let {
+                it.acquire()
+                wifiLock = it
+            }
         }
     }
 
